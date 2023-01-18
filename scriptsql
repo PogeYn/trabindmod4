@@ -1,0 +1,53 @@
+CREATE TABLE `cursos` (
+  `id` int PRIMARY KEY,
+  `materias` varchar(255),
+  `coordenadores` varchar(255)
+);
+
+CREATE TABLE `turmas` (
+  `id` int PRIMARY KEY,
+  `numero` varchar(255),
+  `cursos_materia` int,
+  `professor_id` int,
+  `turmas_coordenadores` varchar(255)
+);
+
+CREATE TABLE `professor` (
+  `id` int PRIMARY KEY,
+  `nome` varchar(255),
+  `cursos_coordenadores` varchar(255)
+);
+
+CREATE TABLE `alunos` (
+  `id` int PRIMARY KEY,
+  `nome` varchar(255),
+  `idade` int,
+  `cpf` int,
+  `email` varchar(255),
+  `professor_id` int
+);
+
+CREATE TABLE `notas` (
+  `id` int PRIMARY KEY,
+  `aluno_id` int
+);
+
+CREATE TABLE `presenca` (
+  `aluno_id` int
+);
+
+ALTER TABLE `cursos` ADD FOREIGN KEY (`materias`) REFERENCES `turmas` (`cursos_materia`);
+
+ALTER TABLE `turmas` ADD FOREIGN KEY (`turmas_coordenadores`) REFERENCES `cursos` (`coordenadores`);
+
+ALTER TABLE `turmas` ADD FOREIGN KEY (`professor_id`) REFERENCES `professor` (`id`);
+
+ALTER TABLE `alunos` ADD FOREIGN KEY (`professor_id`) REFERENCES `professor` (`id`);
+
+ALTER TABLE `professor` ADD FOREIGN KEY (`cursos_coordenadores`) REFERENCES `cursos` (`coordenadores`);
+
+ALTER TABLE `alunos` ADD FOREIGN KEY (`id`) REFERENCES `turmas` (`id`);
+
+ALTER TABLE `alunos` ADD FOREIGN KEY (`id`) REFERENCES `notas` (`aluno_id`);
+
+ALTER TABLE `presenca` ADD FOREIGN KEY (`aluno_id`) REFERENCES `alunos` (`id`);
